@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <style>
+      .dino { animation: jump 1.2s infinite ease-in-out; }
+      .cactus1 { animation: move1 3s linear infinite; }
+      .cactus2 { animation: move2 4s linear infinite; }
+      .cloud1 { animation: float1 8s linear infinite; }
+      .cloud2 { animation: float2 12s linear infinite; }
+      .particles { animation: sparkle 2s infinite ease-in-out; }
+      
+      @keyframes jump {
+        0%, 70%, 100% { transform: translateY(0); }
+        35% { transform: translateY(-40px); }
+      }
+      
+      @keyframes move1 {
+        0% { transform: translateX(850px); }
+        100% { transform: translateX(-50px); }
+      }
+      
+      @keyframes move2 {
+        0% { transform: translateX(900px); }
+        100% { transform: translateX(-100px); }
+      }
+      
+      @keyframes float1 {
+        0% { transform: translateX(800px); }
+        100% { transform: translateX(-200px); }
+      }
+      
+      @keyframes float2 {
+        0% { transform: translateX(900px); }
+        100% { transform: translateX(-300px); }
+      }
+      
+      @keyframes sparkle {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 1; }
+      }
+    </style>
+    
+    <!-- Gradient backgrounds -->
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#0F172A;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="groundGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#374151;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#1F2937;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky background -->
+  <rect width="800" height="480" fill="url(#skyGrad)"/>
+  
+  <!-- Ground -->
+  <rect x="0" y="480" width="800" height="120" fill="url(#groundGrad)"/>
+  <line x1="0" y1="480" x2="800" y2="480" stroke="#94A3B8" stroke-width="2"/>
+  
+  <!-- Clouds -->
+  <g class="cloud1" transform="translate(0,100)">
+    <ellipse cx="0" cy="0" rx="30" ry="15" fill="#E5E7EB" opacity="0.6"/>
+    <ellipse cx="20" cy="0" rx="40" ry="20" fill="#E5E7EB" opacity="0.6"/>
+    <ellipse cx="40" cy="0" rx="25" ry="12" fill="#E5E7EB" opacity="0.6"/>
+  </g>
+  
+  <g class="cloud2" transform="translate(0,150)">
+    <ellipse cx="0" cy="0" rx="25" ry="12" fill="#E5E7EB" opacity="0.4"/>
+    <ellipse cx="15" cy="0" rx="35" ry="18" fill="#E5E7EB" opacity="0.4"/>
+    <ellipse cx="35" cy="0" rx="20" ry="10" fill="#E5E7EB" opacity="0.4"/>
+  </g>
+  
+  <!-- Dino (T-Rex) -->
+  <g class="dino" transform="translate(120,420)">
+    <!-- Body -->
+    <rect x="0" y="20" width="40" height="35" rx="5" fill="#10B981"/>
+    <!-- Head -->
+    <rect x="35" y="5" width="25" height="25" rx="3" fill="#10B981"/>
+    <!-- Eye -->
+    <circle cx="50" cy="15" r="3" fill="#fff"/>
+    <circle cx="51" cy="14" r="1.5" fill="#000"/>
+    <!-- Legs -->
+    <rect x="5" y="55" width="8" height="15" fill="#10B981"/>
+    <rect x="25" y="55" width="8" height="15" fill="#10B981"/>
+    <!-- Arms -->
+    <rect x="10" y="25" width="6" height="12" fill="#10B981"/>
+    <!-- Tail -->
+    <rect x="-15" y="25" width="20" height="8" rx="4" fill="#10B981"/>
+  </g>
+  
+  <!-- Cacti -->
+  <g class="cactus1" transform="translate(0,430)">
+    <rect x="0" y="0" width="15" height="50" rx="3" fill="#84CC16"/>
+    <rect x="-8" y="15" width="8" height="20" rx="2" fill="#84CC16"/>
+    <rect x="15" y="20" width="8" height="15" rx="2" fill="#84CC16"/>
+  </g>
+  
+  <g class="cactus2" transform="translate(0,440)">
+    <rect x="0" y="0" width="12" height="40" rx="2" fill="#84CC16"/>
+    <rect x="12" y="10" width="6" height="15" rx="1" fill="#84CC16"/>
+  </g>
+  
+  <!-- Floating particles/stars -->
+  <g class="particles">
+    <circle cx="200" cy="200" r="2" fill="#10B981" opacity="0.6"/>
+    <circle cx="350" cy="150" r="1.5" fill="#84CC16" opacity="0.8"/>
+    <circle cx="500" cy="180" r="2.5" fill="#3B82F6" opacity="0.5"/>
+    <circle cx="650" cy="120" r="1" fill="#EC4899" opacity="0.7"/>
+    <circle cx="250" cy="300" r="1.8" fill="#8B5CF6" opacity="0.6"/>
+    <circle cx="450" cy="250" r="1.2" fill="#F97316" opacity="0.8"/>
+  </g>
+  
+  <!-- Game title overlay -->
+  <text x="400" y="350" font-family="system-ui, sans-serif" font-size="48" font-weight="bold" text-anchor="middle" fill="#fff" opacity="0.9">
+    Dino arcade game
+  </text>
+  
+  <text x="400" y="390" font-family="system-ui, sans-serif" font-size="18" text-anchor="middle" fill="#94A3B8" opacity="0.8">
+    Chrome dino grows up; power-ups and boss runs.
+  </text>
+</svg>
