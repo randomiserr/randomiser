@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://randomizer.dev",
+    url: "https://randomiser.xyz",
     title: "randomiser - Builder of strange, useful things",
     description: "Randomiser, a builder of strange things",
     siteName: "randomiser",
