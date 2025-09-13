@@ -256,7 +256,7 @@ export default function YCExaminerPage() {
                 <div>
                   <h4 className="font-medium text-foreground mb-3">Top Categories</h4>
                   <div className="flex flex-wrap gap-2">
-                    {stats.topCategories.map((category, index) => (
+                    {stats.topCategories.map((category) => (
                       <Badge
                         key={category}
                         variant="outline"
