@@ -79,7 +79,7 @@ export function ProjectTile({ project, delay = 0, size = "default" }: ProjectTil
       transition: {
         duration: 0.5,
         delay,
-        ease: "easeOut"
+        
       }
     }
   };
