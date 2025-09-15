@@ -54,6 +54,7 @@ export function Navbar() {
   ];
 
   const externalNavItems = [
+    { href: "/blog", label: "Blog" },
     { href: "/yc-examiner", label: "YC Examiner" },
   ];
 

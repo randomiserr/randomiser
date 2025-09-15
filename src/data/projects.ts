@@ -10,6 +10,42 @@ export type Project = {
   link?: string;
 };
 
+export type BlogPost = {
+  id: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  tags: string[];
+  content?: BlogContent;
+};
+
+export type BlogContent = {
+  introduction: string;
+  sections: BlogSection[];
+  conclusion?: string;
+};
+
+export type BlogSection = {
+  title: string;
+  content: string;
+  subsections?: BlogSubsection[];
+  image?: string;
+  imageAlt?: string;
+  codeBlock?: string;
+  callout?: {
+    type: "info" | "warning" | "success";
+    content: string;
+  };
+};
+
+export type BlogSubsection = {
+  title: string;
+  content: string;
+  image?: string;
+  imageAlt?: string;
+  codeBlock?: string;
+};
+
 export const projects: Project[] = [
   // NOW projects
   {
@@ -106,26 +142,72 @@ export const projects: Project[] = [
   }
 ];
 
-export const blogPosts = [
+export const blogPosts: BlogPost[] = [
   {
-    id: "building-at-the-speed-of-thought",
-    title: "Building at the Speed of Thought",
-    excerpt: "How I prototype ideas in under 24 hours and why most fail beautifully.",
-    date: "2024-03-15",
-    tags: ["Process", "Rapid Prototyping"]
-  },
-  {
-    id: "randomness-as-design-principle",
-    title: "Randomness as a Design Principle",
-    excerpt: "Why controlled chaos creates more engaging user experiences than perfect grids.",
-    date: "2024-02-28",
-    tags: ["Design", "UX", "Philosophy"]
-  },
-  {
-    id: "the-art-of-digital-serendipity",
-    title: "The Art of Digital Serendipity",
-    excerpt: "Designing systems that surprise users in delightful ways without breaking their mental models.",
-    date: "2024-02-10",
-    tags: ["Product", "Psychology", "Design"]
+    id: "connect-hostinger-domain-to-vercel",
+    title: "Hostinger → Vercel: connect your domain in minutes",
+    excerpt: "Step-by-step guide to connect a Hostinger-registered domain to a Vercel project. Includes DNS records, www redirect, verification, and troubleshooting.",
+    date: "2025-09-15",
+    tags: [],
+    content: {
+      introduction: "Exact steps and DNS records to connect a Hostinger-registered domain to a Vercel project. Works for the apex (randomiser.xyz) and the www subdomain. Copy-paste friendly.",
+      sections: [
+        {
+          title: "Before you start",
+          content: "Make sure you have:\n• A **Vercel project** deployed (Production)\n• Your domain is **managed at Hostinger** (DNS Zone Editor access)\n• You can keep this tab open on Vercel's *Domains* page"
+        },
+        {
+          title: "1) Add your domain in Vercel",
+          content: "1. Open your project in Vercel → **Settings → Domains**\n2. Click **Add** and enter your apex domain (e.g. `randomiser.xyz`)\n3. Attach it to the **Production** environment\n\nVercel will now show the DNS records you need. Keep that page open.",
+          image: "/blog/vercel-add-domain.png",
+          imageAlt: "Vercel Add Domain dialog showing how to add a domain to a project"
+        },
+        {
+          title: "2) Create DNS records in Hostinger",
+          content: "In Hostinger, go to **hPanel → Domains → DNS Zone Editor** for your domain, then add these records:",
+          image: "/blog/hostinger-dns-settings.png",
+          imageAlt: "Hostinger DNS settings navigation showing where to find DNS Zone Editor",
+          subsections: [
+            {
+              title: "Apex domain (randomiser.xyz)",
+              content: "Add an A record with these values:",
+              codeBlock: `Type: A
+Name/Host: @
+Value: 76.76.21.21
+TTL: 300–3600`
+            },
+            {
+              title: "www subdomain (www.randomiser.xyz)",
+              content: "Add a CNAME record with these values:",
+              codeBlock: `Type: CNAME
+Name/Host: www
+Value: cname.vercel-dns.com
+TTL: 300–3600`,
+              image: "/blog/hostinger-domain-add.png",
+              imageAlt: "Hostinger DNS record creation interface showing how to add DNS records"
+            }
+          ],
+          callout: {
+            type: "info",
+            content: "**Why:** Vercel routes apex domains via a single A record to `76.76.21.21`.\n\n**Alternative:** If Vercel shows a project-specific CNAME (like `randomiser-xyz.vercel.app` or `xyz.vercel-dns.com`), use exactly what Vercel displays.\n\n**Important:** Delete any old/conflicting records:\n• Other **A** records for `@`\n• **AAAA** records (IPv6) for `@` or `www`\n• Any CNAME for `@` (apex can't be a CNAME)"
+          }
+        },
+        {
+          title: "3) Verify and make it live",
+          content: "1. Back in Vercel → **Settings → Domains**, click **Refresh** or **Verify**\n2. Vercel should show a green check for both `randomiser.xyz` and `www.randomiser.xyz`\n3. Enable **Redirect www → apex** in Vercel if you want `www` to redirect to `randomiser.xyz`",
+          image: "/blog/vercel-verified-domains.png",
+          imageAlt: "Vercel domains page showing successfully verified domains with green checkmarks",
+          callout: {
+            type: "success",
+            content: "**SSL:** Vercel issues certificates automatically once DNS is correct."
+          }
+        },
+        {
+          title: "4) Troubleshooting",
+          content: "Common issues and solutions:\n• **Still pending?** DNS can take time (usually 5–30 min, up to a few hours). Check with `dig` or an online DNS checker\n• **Multiple A records?** Keep only `76.76.21.21` for `@`\n• **IPv6 causing conflicts?** Remove AAAA for `@`/`www` unless you've configured it for Vercel specifically\n• **Using Cloudflare?** Temporarily set the record to \"DNS only\" (grey cloud) until verification succeeds"
+        }
+      ],
+      conclusion: "That's it! Your Hostinger domain should now be connected to your Vercel project with automatic SSL certificates. The process typically takes 5-30 minutes for DNS propagation."
+    }
   }
 ];
