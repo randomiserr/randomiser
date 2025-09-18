@@ -176,7 +176,7 @@ export default function YCExaminerPage() {
                 YC Cohort Examiner
               </h1>
               <p className="text-lg text-muted-foreground">
-                Explore and analyze Y Combinator startup data across cohorts
+                Explore and analyze Y Combinator startup data across 2025 cohorts
               </p>
             </div>
             <Button onClick={downloadSummary} className="gap-2">
@@ -249,7 +249,7 @@ export default function YCExaminerPage() {
         >
           <Card className="bg-card/50 backdrop-blur-sm border-border/50">
             <CardHeader>
-              <CardTitle className="text-foreground">Key Insights</CardTitle>
+              <CardTitle className="text-foreground">Key Insights from 2025</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
