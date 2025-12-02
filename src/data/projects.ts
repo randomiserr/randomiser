@@ -63,21 +63,6 @@ export const projects: Project[] = [
     video: "/aggregator.mp4"
   },
   {
-    id: "dino-arcade-game",
-    title: "Dino arcade game",
-    oneliner: "Multiplayer arcade game that combines Pacman with Donkey Kong",
-    type: "now",
-    tags: ["Game", "Lovable", "Supabase", "Vercel", "CC"],
-    details: [
-      "A multiplayer game that can be played on one or more computers",
-      "Run around the map, gather food that gives special effects and points, and avoid ghosts",
-      "Multiple levels, progressive difficulty, custom ghost logic, randomized obstacles",
-      "Great for having fun with your closest ones",
-    ],
-    image: "/placeholders/dino-game.svg",
-    video: "/dino_clip.mp4"
-  },
-  {
     id: "yc-cohort-examiner",
     title: "YC cohort examiner",
     oneliner: "Get information about the latest batches from YC",
