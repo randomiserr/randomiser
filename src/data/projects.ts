@@ -63,19 +63,34 @@ export const projects: Project[] = [
     video: "/aggregator.mp4"
   },
   {
-    id: "yc-cohort-examiner",
-    title: "YC cohort examiner",
-    oneliner: "Get information about the latest batches from YC",
+    id: "descart",
+    title: "Descart",
+    oneliner: "A deep LLM analyzer that researches political topics and provides a thorough analysis of the impact on the state",
     type: "now",
-    tags: ["Scraping", "Data analysis"],
+    tags: ["Political", "RAG", "Exa", "Tavily", "Gemini"],
     details: [
-      "Scraping Y Combinator startup data about their cohorts",
-      "Tracking the latest changes and gathering insights about the companies",
-      "Future: Tracking startup success metrics and exit patterns"
+      "Using RAG for static data and laws",
+      "Combining multiple search tools to get the best sources",
+      "Strong models on the analysis and judgement"
     ],
-    image: "/placeholders/yc-analysis.svg",
-    video: "/yc.mp4",
-    link: "/yc-examiner"
+    image: "/placeholders/descart.svg",
+    video: "/descart.mp4",
+    link: "https://descart.vercel.app/"
+  },
+  {
+    id: "chartz",
+    title: "Chartz",
+    oneliner: "A Geoguessr like game, but for traders. Players get random charts and random timeframes and guess where the price goes next",
+    type: "now",
+    tags: ["Game", "Trading", "Prediction game"],
+    details: [
+      "10 year of data",
+      "Duel, campaign, and strike modes",
+      "Customized TradingView charts"
+    ],
+    image: "/placeholders/chartz.svg",
+    video: "/chartz.mp4",
+    link: "https://www.chartz.xyz/"
   },
   
   // PAST projects
