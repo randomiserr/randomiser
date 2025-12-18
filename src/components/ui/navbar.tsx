@@ -55,7 +55,6 @@ export function Navbar() {
 
   const externalNavItems = [
     { href: "/blog", label: "Blog" },
-    { href: "/yc-examiner", label: "YC Examiner" },
   ];
 
   return (
@@ -68,14 +67,14 @@ export function Navbar() {
                 onClick={() => scrollToSection("hero")}
                 className="font-space-grotesk text-2xl font-bold text-foreground hover:text-accent transition-colors focus:outline-none rounded-md px-3 py-2"
               >
-                randomizer
+                randomiser
               </button>
             ) : (
               <Link
                 href="/"
                 className="font-space-grotesk text-2xl font-bold text-foreground hover:text-accent transition-colors focus:outline-none rounded-md px-3 py-2"
               >
-                randomizer
+                randomiser
               </Link>
             )}
 
