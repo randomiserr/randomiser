@@ -21,13 +21,13 @@ export function ContactForm({ onClose }: ContactFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
     setIsSubmitting(false);
     setIsSubmitted(true);
-    
+
     // Close form after showing success message
     setTimeout(() => {
       onClose();
@@ -97,7 +97,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
           required
           value={formData.message}
           onChange={handleChange}
-          placeholder="What's on your mind?"
+          placeholder="Tell me more about what you're building..."
           className="w-full h-24 resize-none"
         />
       </div>
@@ -106,8 +106,8 @@ export function ContactForm({ onClose }: ContactFormProps) {
         <Button type="button" variant="outline" onClick={onClose} className="flex-1">
           Cancel
         </Button>
-        <Button 
-          type="submit" 
+        <Button
+          type="submit"
           disabled={isSubmitting}
           className="flex-1 bg-accent hover:bg-accent/90 text-accent-foreground"
         >

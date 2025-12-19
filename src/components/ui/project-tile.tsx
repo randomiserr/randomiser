@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, Variants } from "framer-motion";
 import { Card, CardContent, CardHeader } from "./card";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -21,32 +21,16 @@ export function ProjectTile({ project, delay = 0, size = "default" }: ProjectTil
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // Assign vibrant colors based on project
-  const getProjectColor = () => {
-    const colors = [
-      { name: "electric-blue", value: "#3B82F6", css: "rgb(59 130 246)" },
-      { name: "mint", value: "#10B981", css: "rgb(16 185 129)" },
-      { name: "purple", value: "#8B5CF6", css: "rgb(139 92 246)" },
-      { name: "coral", value: "#F97316", css: "rgb(249 115 22)" },
-      { name: "pink", value: "#EC4899", css: "rgb(236 72 153)" },
-      { name: "lime", value: "#84CC16", css: "rgb(132 204 22)" },
-    ];
-    const index = project.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % colors.length;
-    return colors[index];
-  };
-  
-  const accentColor = getProjectColor();
-  const hoverRotation = 0.5; // More subtle rotation
-  const jitter = { x: 1, y: 1 }; // More subtle jitter
+  const hoverRotation = 0;
 
-  // Motion values for hover effects (more subtle)
+  // Motion values for hover effects
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const rotateX = useTransform(y, [-100, 100], [5, -5]);
-  const rotateY = useTransform(x, [-100, 100], [-5, 5]);
+  const rotateX = useTransform(y, [-100, 100], [2, -2]);
+  const rotateY = useTransform(x, [-100, 100], [-2, 2]);
 
   // Smooth spring animations
-  const springConfig = { stiffness: 100, damping: 20, mass: 0.2 };
+  const springConfig = { stiffness: 150, damping: 25, mass: 0.1 };
   const rotateXSpring = useSpring(rotateX, springConfig);
   const rotateYSpring = useSpring(rotateY, springConfig);
 
@@ -66,24 +50,21 @@ export function ProjectTile({ project, delay = 0, size = "default" }: ProjectTil
     setIsHovered(false);
   };
 
-  const tileVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 20,
-      scale: 0.95
+  const tileVariants: Variants = {
+    hidden: {
+      opacity: 0,
+      y: 30,
     },
     visible: {
       opacity: 1,
       y: 0,
-      scale: 1,
       transition: {
-        duration: 0.5,
+        duration: 0.8,
         delay,
-        
+        ease: [0.16, 1, 0.3, 1]
       }
     }
   };
-
 
   return (
     <motion.div
@@ -101,163 +82,158 @@ export function ProjectTile({ project, delay = 0, size = "default" }: ProjectTil
         rotateY: rotateYSpring,
         transformStyle: "preserve-3d",
       }}
-      className="perspective-1000 cursor-pointer"
+      className="perspective-1000 cursor-pointer w-full"
     >
       <Card
         className={`
-          group relative cursor-pointer transition-all duration-300 overflow-hidden border-0
+          group relative cursor-pointer transition-all duration-500 overflow-hidden border border-zinc-800/50 bg-[#0A0A0A]
           ${size === "large" ? "h-auto min-h-[500px]" : "h-auto min-h-[400px]"}
-          hover:shadow-2xl hover:-translate-y-1
-          backdrop-blur-sm focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2 focus-within:ring-offset-background
+          hover:border-zinc-500/50 focus-within:ring-2 focus-within:ring-white/20
         `}
         style={{
-          backgroundColor: project.type === "now" ? accentColor.value : undefined,
-          transform: isHovered 
-            ? `rotate(${hoverRotation}deg) translate(${jitter.x}px, ${jitter.y}px)`
-            : undefined,
-          boxShadow: isHovered 
-            ? `0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 30px ${accentColor.value}60`
-            : `0 15px 35px -5px rgba(0, 0, 0, 0.4), 0 0 15px ${accentColor.value}40`,
+          boxShadow: isHovered
+            ? `0 40px 80px -20px rgba(0, 0, 0, 0.8)`
+            : `none`,
         }}
         aria-expanded={isExpanded}
       >
-        {/* Background media (video for current projects, image for past projects) */}
-        {(project.video || project.type === "past") && (
+        {/* Background media */}
+        {(project.video || project.image) && (
           <div className="absolute inset-0 z-0">
             {project.video ? (
-              <video 
-                src={project.video} 
-                autoPlay 
-                loop 
-                muted 
-                playsInline 
-                className="w-full h-full object-cover pointer-events-none" 
+              <video
+                src={project.video}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className={`w-full h-full object-cover transition-transform duration-700 ${isHovered ? 'scale-105' : 'scale-100'}`}
               />
             ) : (
               <Image
                 src={project.image}
                 alt={`${project.title} background`}
                 fill
-                className="object-cover pointer-events-none"
+                className={`object-cover transition-transform duration-700 ${isHovered ? 'scale-105' : 'scale-100'}`}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             )}
-            {/* Gradient overlay for better text readability */}
-            <div className={`absolute inset-0 z-10 bg-gradient-to-t ${
-              isExpanded 
-                ? 'from-black/95 via-black/85 to-black/60' 
-                : project.type === "past" 
-                  ? 'from-black/90 via-black/60 to-black/40'
-                  : 'from-black/70 via-black/30 to-black/10'
-            } transition-all duration-300`} />
+            {/* Dark Gradient Overlay */}
+            <div className={`absolute inset-0 z-10 bg-black/40 transition-opacity duration-500 ${(isHovered || isExpanded) ? 'opacity-100' : 'opacity-0'}`} />
+            <div className={`absolute inset-0 z-10 bg-gradient-to-t from-black via-black/80 to-black/40 transition-opacity duration-500 ${(isHovered || isExpanded) ? 'opacity-100' : 'opacity-90'}`} />
           </div>
         )}
 
-        <CardHeader className="relative z-20 space-y-4">
-          <div className="flex items-start justify-between">
-            <div className="space-y-2">
-              <h3 className="font-space-grotesk text-xl md:text-2xl lg:text-3xl font-bold text-white drop-shadow-lg">
+        <CardHeader className="relative z-20 p-8 flex flex-col h-full min-h-[inherit]">
+          <div className="flex-1 flex flex-col space-y-6">
+            {/* Project Header - Always at the Top */}
+            <div className="space-y-3">
+              <motion.div
+                animate={{ x: isHovered ? 10 : 0 }}
+                transition={{ duration: 0.4 }}
+                className="flex items-center gap-3"
+              >
+                <span className="text-zinc-500 text-xs font-mono uppercase tracking-widest">{project.type}</span>
+                <div className="h-px w-8 bg-zinc-800" />
+              </motion.div>
+              <h3 className="font-space-grotesk text-3xl md:text-4xl font-bold text-white leading-tight">
                 {project.title}
               </h3>
-              {(isExpanded || !project.video) && (
-                <p className="text-white/90 text-sm md:text-base lg:text-lg leading-relaxed drop-shadow flex-1">
-                  {project.oneliner}
-                </p>
+            </div>
+
+            {/* Content Area - Swaps on click */}
+            <div className="flex-1 overflow-hidden">
+              {!isExpanded ? (
+                <motion.div
+                  key="oneliner"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="space-y-6"
+                >
+                  <p className="text-white text-xl leading-relaxed max-w-md font-medium drop-shadow-sm">
+                    {project.oneliner}
+                  </p>
+
+                  <div className="flex flex-wrap gap-2">
+                    {project.tags.slice(0, 3).map((tag) => (
+                      <span key={tag} className="text-[10px] uppercase tracking-tighter text-zinc-400 border border-zinc-800 px-2 py-0.5 rounded-sm bg-black/60 backdrop-blur-sm">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="details"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="space-y-6"
+                >
+                  <div className="flex justify-between items-start">
+                    <h4 className="text-xs font-medium text-zinc-500 uppercase tracking-widest">Selected Highlights</h4>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsExpanded(false);
+                      }}
+                      className="text-zinc-500 hover:text-white transition-colors p-1"
+                    >
+                      <ChevronUp className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <ul className="space-y-3">
+                    {project.details.map((detail, index) => (
+                      <li key={index} className="text-[15px] text-white flex items-start gap-3 leading-relaxed">
+                        <span className="w-1.5 h-1.5 rounded-full mt-2 bg-white/40 shrink-0" />
+                        {detail}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
               )}
             </div>
 
-          </div>
-
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2">
-            {project.tags.map((tag) => (
-              <Badge
-                key={tag}
-                className="text-xs bg-white/20 text-white border-white/30 backdrop-blur-sm"
-              >
-                {tag}
-              </Badge>
-            ))}
-          </div>
-
-        </CardHeader>
-
-        {/* More indicator in bottom corner when not expanded */}
-        {!isExpanded && (
-          <div className="absolute bottom-4 right-4 z-20">
-            <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs font-medium">
-              <span>more</span>
-              <ArrowRight className="h-3 w-3" />
-            </div>
-          </div>
-        )}
-
-        {/* Additional overlay for expanded state - covers entire card */}
-        {isExpanded && (
-          <div className="absolute inset-0 z-15 bg-black/50 backdrop-blur-sm" />
-        )}
-
-        {/* Expanded content */}
-        <div
-          className={`relative z-20 overflow-hidden transition-all duration-300 ease-out ${
-            isExpanded ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
-          }`}
-        >
-          <CardContent className="relative z-10 pt-0 space-y-4">
-
-            {/* Project details */}
-            <div className="space-y-3">
-              <h4 className="font-medium text-white">Key highlights:</h4>
-              <ul className="space-y-2">
-                {project.details.map((detail, index) => (
-                  <li key={index} className="text-sm text-white/90 flex items-start gap-2">
-                    <span className="w-1 h-1 rounded-full mt-2 shrink-0 bg-white/60" />
-                    {detail}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Actions */}
-            <div className="flex items-center justify-between pt-2">
-              {project.link && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  asChild
-                  className="border-white/30 text-white hover:bg-white/20 hover:text-white hover:border-white/50"
+            {/* Project Footer - Links and Action */}
+            <div className="pt-6 mt-auto border-t border-zinc-800/50 flex items-center justify-between">
+              {project.link ? (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-2 text-white text-sm font-medium hover:text-zinc-300 transition-colors"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  {project.link.startsWith('http') ? (
-                    <a 
-                      href={project.link} 
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View project <ExternalLink className="ml-1 h-3 w-3" />
-                    </a>
-                  ) : (
-                    <Link href={project.link}>
-                      View project <ExternalLink className="ml-1 h-3 w-3" />
-                    </Link>
-                  )}
-                </Button>
+                  Visit Site <ExternalLink className="w-4 h-4 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
+                </a>
+              ) : (
+                <div className="text-zinc-500 text-xs font-mono uppercase tracking-widest">
+                  Internal Project
+                </div>
               )}
 
-              <Button
-                variant="ghost"
-                size="sm"
-                className="ml-auto text-white/70 hover:text-white hover:bg-white/20"
+              <button
+                className="text-[10px] text-zinc-500 font-mono hover:text-white transition-colors uppercase tracking-wider"
                 onClick={(e) => {
                   e.stopPropagation();
-                  setIsExpanded(false);
+                  setIsExpanded(!isExpanded);
                 }}
               >
-                <ChevronUp className="h-4 w-4" />
-              </Button>
+                {isExpanded ? "Back to Summary" : "View Details"}
+              </button>
             </div>
-          </CardContent>
-        </div>
+          </div>
+        </CardHeader>
+
+        {/* Action Button - Hint to click */}
+        {!isExpanded && (
+          <div className={`absolute bottom-8 right-8 z-30 transition-all duration-500 ${isHovered ? 'opacity-100 scale-100' : 'opacity-80 scale-95'}`}>
+            <div className="px-4 py-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-md flex items-center gap-2 text-white text-xs font-medium">
+              Details <ArrowRight className="w-4 h-4" />
+            </div>
+          </div>
+        )}
       </Card>
     </motion.div>
   );

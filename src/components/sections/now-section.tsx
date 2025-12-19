@@ -7,59 +7,44 @@ import { ProjectTile } from "@/components/ui/project-tile";
 export function NowSection() {
   const nowProjects = projects.filter(project => project.type === "now");
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.06,
-        delayChildren: 0.1,
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        
-      }
-    }
-  };
-
   return (
-    <section id="building" className="py-20 md:py-32">
+    <section id="building" className="py-24 md:py-40 bg-black">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={containerVariants}
-        >
-          <motion.div variants={itemVariants} className="mb-16">
-            <h2 className="font-space-grotesk text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-              What I&apos;m building
-            </h2>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl">
-              Current experiments or tools I&apos;m working on, mostly things that I&apos;m missing on the market or find interesting.
-            </p>
-          </motion.div>
-
-          <div className="grid gap-8 md:gap-10 lg:gap-12 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-            {nowProjects.map((project, index) => (
-              <motion.div key={project.id} variants={itemVariants}>
-                <ProjectTile 
-                  project={project}
-                  delay={index * 0.1}
-                  size="large"
-                />
-              </motion.div>
-            ))}
+        <div className="mb-20">
+          <div className="max-w-4xl">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <h2 className="font-space-grotesk text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tighter">
+                Current <br />
+                <span className="text-zinc-600">Ventures.</span>
+              </h2>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="text-zinc-400 text-lg md:text-xl max-w-2xl font-light leading-relaxed"
+              >
+                Experimenting with AI and new automations, building various demos and MVPs.
+              </motion.p>
+            </motion.div>
           </div>
-        </motion.div>
+        </div>
+
+        <div className="grid gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {nowProjects.map((project, index) => (
+            <ProjectTile
+              key={project.id}
+              project={project}
+              delay={index * 0.1}
+              size="default"
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
