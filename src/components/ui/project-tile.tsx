@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, Variants } from "framer-motion";
 import { Card, CardContent, CardHeader } from "./card";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -50,7 +50,7 @@ export function ProjectTile({ project, delay = 0, size = "default" }: ProjectTil
     setIsHovered(false);
   };
 
-  const tileVariants: any = {
+  const tileVariants: Variants = {
     hidden: {
       opacity: 0,
       y: 30,
